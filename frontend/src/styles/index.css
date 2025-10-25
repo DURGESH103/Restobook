@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url('https://unpkg.com/aos@2.3.1/dist/aos.css');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -16,6 +17,10 @@ body {
   color: #0f0f0f;
   overflow-x: hidden;
   background-color: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .dark body {
@@ -23,60 +28,141 @@ body {
   background-color: #0f0f0f;
 }
 
-.hero-bg {
-  background: linear-gradient(135deg, rgba(15,15,15,0.8) 0%, rgba(44,44,44,0.6) 100%);
+/* Premium Hero Styles */
+.luxury-badge {
+  @apply inline-flex items-center px-6 py-2 bg-gradient-to-r from-gold/20 to-yellow-500/20 backdrop-blur-md border border-gold/30 rounded-full text-gold text-sm font-medium tracking-wider uppercase;
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15);
 }
 
-.hero-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+.hero-btn-primary {
+  @apply relative inline-flex items-center px-10 py-4 bg-gradient-to-r from-gold to-yellow-500 text-black font-semibold rounded-full overflow-hidden transition-all duration-500 hover:shadow-2xl;
+  box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
 }
 
+.hero-btn-secondary {
+  @apply relative inline-flex items-center px-10 py-4 border-2 border-gold/60 text-gold font-semibold rounded-full backdrop-blur-sm bg-white/5 overflow-hidden transition-all duration-500 hover:border-gold hover:shadow-xl;
+}
+
+.luxury-scroll-indicator {
+  @apply w-8 h-14 border-2 border-gold/60 rounded-full flex justify-center items-start pt-2 backdrop-blur-sm bg-white/5;
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2);
+}
+
+/* Luxury Card Styles */
+.luxury-card {
+  @apply relative p-10 bg-gradient-to-br from-gray-900/80 to-black/90 backdrop-blur-xl border border-gold/20 rounded-3xl overflow-hidden transition-all duration-700;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+}
+
+.luxury-card::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 transition-opacity duration-500;
+}
+
+.luxury-card:hover::before {
+  opacity: 1;
+}
+
+.luxury-icon {
+  @apply w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6 shadow-2xl;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Premium Button Styles */
+.luxury-btn {
+  @apply relative inline-flex items-center px-12 py-5 bg-transparent border-2 border-gold text-gold font-semibold rounded-full overflow-hidden transition-all duration-500 hover:text-black;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.premium-cta-btn {
+  @apply relative inline-flex items-center px-16 py-6 bg-gradient-to-r from-gold to-yellow-500 rounded-full overflow-hidden transition-all duration-500;
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+/* Glass Morphism Effects */
 .glass-effect {
-  backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
+.glass-dark {
+  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Advanced Hover Effects */
 .card-hover {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
 }
 
 .card-hover:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.15);
+  transform: translateY(-20px) rotateX(5deg) rotateY(5deg) scale(1.02);
+  box-shadow: 
+    0 40px 80px rgba(212, 175, 55, 0.15),
+    0 0 0 1px rgba(212, 175, 55, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* Premium Text Effects */
 .text-gradient {
-  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradientShift 3s ease-in-out infinite;
 }
 
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Enhanced Button Styles */
 .btn-primary {
-  @apply bg-gradient-to-r from-gold to-yellow-500 text-black px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105;
+  @apply relative bg-gradient-to-r from-gold to-yellow-500 text-black px-10 py-5 rounded-full font-semibold overflow-hidden transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-3 hover:scale-105;
+  box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-yellow-400 to-gold transform scale-x-0 transition-transform duration-500 origin-left;
+}
+
+.btn-primary:hover::before {
+  transform: scale-x-100;
 }
 
 .btn-secondary {
-  @apply border-2 border-gold text-gold px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-gold hover:text-black hover:shadow-xl;
+  @apply relative border-2 border-gold text-gold px-10 py-5 rounded-full font-semibold backdrop-blur-sm bg-white/5 overflow-hidden transition-all duration-500 hover:text-black hover:shadow-xl;
+}
+
+.btn-secondary::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-gold to-yellow-500 transform scale-0 transition-transform duration-500;
+}
+
+.btn-secondary:hover::before {
+  transform: scale-100;
 }
 
 .section-padding {
-  @apply py-24 px-4 sm:px-6 lg:px-8;
+  @apply py-32 px-6 sm:px-8 lg:px-12;
 }
 
-/* Premium color scheme */
+/* Premium Color Scheme */
 :root {
   --color-black: #0f0f0f;
   --color-gray: #2c2c2c;
   --color-gold: #d4af37;
   --color-white: #ffffff;
+  --gradient-gold: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  --shadow-gold: 0 25px 50px rgba(212, 175, 55, 0.15);
 }
 
 .bg-black { background-color: var(--color-black); }
@@ -85,80 +171,162 @@ body {
 .text-gold { color: var(--color-gold); }
 .border-gold { border-color: var(--color-gold); }
 
-/* Smooth scrolling */
+/* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Premium animations */
-@keyframes fadeInUp {
+/* Premium Animations */
+@keyframes luxuryFadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(60px) scale(0.95);
+    filter: blur(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
-@keyframes slideInLeft {
+@keyframes luxurySlideIn {
   from {
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateX(-100px) rotateY(-15deg);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) rotateY(0);
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out;
+@keyframes floatingGlow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.5);
+  }
 }
 
-.animate-slide-in-left {
-  animation: slideInLeft 0.8s ease-out;
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-luxury-fade {
+  animation: luxuryFadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animate-luxury-slide {
+  animation: luxurySlideIn 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animate-floating-glow {
+  animation: floatingGlow 3s ease-in-out infinite;
 }
 
 /* Micro-interactions */
 .micro-interaction {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center;
 }
 
 .micro-interaction:hover {
-  transform: scale(1.05);
+  transform: scale(1.08) translateY(-2px);
+  filter: brightness(1.1);
 }
 
-/* Custom scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-gray);
+  background: linear-gradient(to bottom, #0f0f0f, #2c2c2c);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-gold);
-  border-radius: 5px;
+  background: linear-gradient(to bottom, #d4af37, #b8941f);
+  border-radius: 6px;
+  border: 2px solid #0f0f0f;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8941f;
+  background: linear-gradient(to bottom, #f4d03f, #d4af37);
 }
 
-/* Lightbox styles */
+/* Lightbox Enhancement */
 .lightbox-overlay {
-  backdrop-filter: blur(10px);
-  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(20px);
+  background: rgba(15, 15, 15, 0.95);
 }
 
-/* Premium shadows */
-.shadow-premium {
-  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+/* Premium Shadows */
+.shadow-luxury {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(212, 175, 55, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.shadow-premium-hover:hover {
-  box-shadow: 0 30px 60px rgba(212, 175, 55, 0.2);
+.shadow-luxury-hover:hover {
+  box-shadow: 
+    0 40px 80px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 60px rgba(212, 175, 55, 0.1);
+}
+
+/* Shimmer Effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+  .luxury-card {
+    @apply p-6;
+  }
+  
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    @apply px-8 py-3 text-sm;
+  }
+  
+  .luxury-btn {
+    @apply px-8 py-4 text-sm;
+  }
+}
+
+/* Dark Mode Enhancements */
+.dark .luxury-card {
+  background: linear-gradient(135deg, rgba(15, 15, 15, 0.9) 0%, rgba(44, 44, 44, 0.8) 100%);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(212, 175, 55, 0.3);
 }
