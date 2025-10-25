@@ -1,0 +1,30 @@
+{
+  "name": "restobook",
+  "version": "1.0.0",
+  "description": "Modern luxury restaurant website with React and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "install-server": "cd backend && npm install",
+    "install-client": "cd frontend && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "heroku-postbuild": "npm run install-all && npm run build"
+  },
+  "keywords": [
+    "restaurant",
+    "react",
+    "mongodb",
+    "nodejs",
+    "express",
+    "luxury",
+    "booking"
+  ],
+  "author": "DURGESH103",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
