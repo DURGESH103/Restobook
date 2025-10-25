@@ -53,6 +53,10 @@ export const updateQuantity = (itemId, quantity) => {
   return cart;
 };
 
+export const updateCartItem = (itemId, quantity) => {
+  return updateQuantity(itemId, quantity);
+};
+
 export const clearCart = () => {
   localStorage.removeItem('restobook_cart');
   return [];

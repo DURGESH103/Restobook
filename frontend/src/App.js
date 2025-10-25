@@ -12,7 +12,7 @@ import Booking from './pages/Booking';
 import Testimonials from './pages/Testimonials';
 import GalleryPage from './pages/GalleryPage';
 import Contact from './pages/Contact';
-import Cart from './components/Cart';
+import Cart from './pages/Cart';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
 import Register from './pages/Register';
