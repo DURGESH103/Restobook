@@ -3,12 +3,23 @@ const MenuItem = require('../models/MenuItem');
 const { protect, admin } = require('../middleware/auth');
 const router = express.Router();
 
-// Get all menu items
+// Get all menu items with filtering
 router.get('/', async (req, res) => {
   try {
-    const { category } = req.query;
-    const filter = category ? { category, isAvailable: true } : { isAvailable: true };
-    const menuItems = await MenuItem.find(filter).sort({ createdAt: -1 });
+    const { category, isVeg, sortBy, minRating } = req.query;
+    
+    let filter = { isAvailable: true };
+    if (category && category !== 'All') filter.category = category;
+    if (isVeg !== undefined) filter.isVeg = isVeg === 'true';
+    if (minRating) filter.rating = { $gte: parseFloat(minRating) };
+    
+    let sortOptions = { createdAt: -1 };
+    if (sortBy === 'price-low') sortOptions = { price: 1 };
+    else if (sortBy === 'price-high') sortOptions = { price: -1 };
+    else if (sortBy === 'rating') sortOptions = { rating: -1 };
+    else if (sortBy === 'popularity') sortOptions = { orderCount: -1 };
+    
+    const menuItems = await MenuItem.find(filter).sort(sortOptions);
     res.json(menuItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
