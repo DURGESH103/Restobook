@@ -7,8 +7,9 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const testimonials = await Testimonial.find({ isApproved: true }).sort({ createdAt: -1 });
-    res.json(testimonials);
+    res.json(testimonials || []);
   } catch (error) {
+    console.error('Testimonials GET error:', error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -23,16 +24,23 @@ router.get('/all', protect, admin, async (req, res) => {
   }
 });
 
-// Create new testimonial (authenticated users only)
-router.post('/', protect, async (req, res) => {
+// Create new testimonial
+router.post('/', async (req, res) => {
   try {
-    const testimonial = new Testimonial(req.body);
+    const { name, email, rating, message } = req.body;
+    
+    if (!name || !email || !rating || !message) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    
+    const testimonial = new Testimonial({ name, email, rating, message });
     const savedTestimonial = await testimonial.save();
     res.status(201).json({ 
       message: 'Thank you for your feedback! It will be reviewed before publishing.', 
       testimonial: savedTestimonial 
     });
   } catch (error) {
+    console.error('Testimonial creation error:', error);
     res.status(400).json({ message: error.message });
   }
 });
