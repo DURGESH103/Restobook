@@ -57,12 +57,19 @@ const Testimonials = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await testimonialAPI.create(formData);
+      const submitData = {
+        name: user?.name || formData.name,
+        email: user?.email || formData.email,
+        rating: formData.rating,
+        message: formData.message
+      };
+      await testimonialAPI.create(submitData);
       toast.success('Thank you for your feedback! It will be reviewed before publishing.');
       setFormData({ name: '', email: '', rating: 5, message: '' });
       setShowForm(false);
     } catch (error) {
-      toast.error('Failed to submit testimonial. Please try again.');
+      console.error('Testimonial submission error:', error);
+      toast.error(error.response?.data?.message || 'Failed to submit testimonial. Please try again.');
     }
   };
 
