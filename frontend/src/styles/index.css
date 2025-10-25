@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://unpkg.com/aos@2.3.1/dist/aos.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: #0f0f0f;
+  overflow-x: hidden;
+  background-color: #ffffff;
+}
+
+.dark body {
+  color: #ffffff;
+  background-color: #0f0f0f;
+}
+
+.hero-bg {
+  background: linear-gradient(135deg, rgba(15,15,15,0.8) 0%, rgba(44,44,44,0.6) 100%);
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.glass-effect {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.15);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-gold to-yellow-500 text-black px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105;
+}
+
+.btn-secondary {
+  @apply border-2 border-gold text-gold px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-gold hover:text-black hover:shadow-xl;
+}
+
+.section-padding {
+  @apply py-24 px-4 sm:px-6 lg:px-8;
+}
+
+/* Premium color scheme */
+:root {
+  --color-black: #0f0f0f;
+  --color-gray: #2c2c2c;
+  --color-gold: #d4af37;
+  --color-white: #ffffff;
+}
+
+.bg-black { background-color: var(--color-black); }
+.bg-gray { background-color: var(--color-gray); }
+.bg-gold { background-color: var(--color-gold); }
+.text-gold { color: var(--color-gold); }
+.border-gold { border-color: var(--color-gold); }
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+/* Micro-interactions */
+.micro-interaction {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-interaction:hover {
+  transform: scale(1.05);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8941f;
+}
+
+/* Lightbox styles */
+.lightbox-overlay {
+  backdrop-filter: blur(10px);
+  background: rgba(15, 15, 15, 0.9);
+}
+
+/* Premium shadows */
+.shadow-premium {
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+}
+
+.shadow-premium-hover:hover {
+  box-shadow: 0 30px 60px rgba(212, 175, 55, 0.2);
+}
