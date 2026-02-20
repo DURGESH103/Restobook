@@ -49,6 +49,16 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Test endpoint to verify backend is working
+router.post('/test', (req, res) => {
+  res.json({ 
+    message: 'Backend is working',
+    body: req.body,
+    hasJWT: !!process.env.JWT_SECRET,
+    hasDB: !!process.env.MONGODB_URI
+  });
+});
+
 // Login user
 router.post('/login', async (req, res) => {
   try {
