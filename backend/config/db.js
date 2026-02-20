@@ -2,10 +2,16 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/restobook');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    }
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('MongoDB connection failed:', error.message);
     process.exit(1);
   }
 };

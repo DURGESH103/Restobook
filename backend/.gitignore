@@ -7,11 +7,8 @@ node_modules/
 .env.production
 .env.development
 
-# Production build
-build/
-dist/
-
 # Logs
+logs/
 *.log
 npm-debug.log*
 
@@ -23,10 +20,15 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+*.swo
+
+# Build
+dist/
+build/
 
 # Testing
 coverage/
 
 # Misc
 .cache/
-.vercel
+temp/

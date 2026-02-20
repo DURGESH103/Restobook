@@ -11,6 +11,8 @@ const menuItemSchema = new mongoose.Schema({
   },
   imageURL: { type: String, required: true },
   rating: { type: Number, default: 4.5, min: 0, max: 5 },
+  averageRating: { type: Number, default: 0, min: 0, max: 5 },
+  totalReviews: { type: Number, default: 0 },
   isVeg: { type: Boolean, default: false },
   isAvailable: { type: Boolean, default: true },
   orderCount: { type: Number, default: 0 },

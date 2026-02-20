@@ -1,0 +1,24 @@
+{
+  "backend_dependencies": {
+    "express-rate-limit": "^7.1.5",
+    "express-mongo-sanitize": "^2.2.0",
+    "helmet": "^7.1.0",
+    "express-validator": "^7.0.1",
+    "joi": "^17.11.0"
+  },
+  "frontend_dependencies": {
+    "react-hot-toast": "^2.4.1"
+  },
+  "installation_commands": {
+    "backend": "cd backend && npm install express-rate-limit express-mongo-sanitize helmet express-validator joi",
+    "frontend": "cd frontend && npm install react-hot-toast"
+  },
+  "notes": [
+    "express-rate-limit: Prevents brute force attacks",
+    "express-mongo-sanitize: Prevents NoSQL injection",
+    "helmet: Sets security HTTP headers",
+    "express-validator: Input validation and sanitization",
+    "joi: Alternative schema validation (optional)",
+    "react-hot-toast: Modern toast notifications"
+  ]
+}
