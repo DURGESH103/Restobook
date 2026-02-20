@@ -15,16 +15,10 @@ const apiLimiter = rateLimit({
   message: 'Too many requests'
 });
 
-// Security headers
+// Security headers - Don't override CORS
 const securityHeaders = helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"]
-    }
-  }
+  crossOriginResourcePolicy: false,
+  contentSecurityPolicy: false
 });
 
 // Sanitize data

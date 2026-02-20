@@ -25,11 +25,7 @@ connectDB();
 // Trust proxy (required for Render)
 app.set('trust proxy', 1);
 
-// Security middleware
-app.use(securityHeaders);
-app.use(sanitize);
-
-// CORS Configuration
+// CORS - MUST be before other middleware
 const allowedOrigins = [
   'https://restobook.vercel.app',
   'http://localhost:3000',
@@ -48,14 +44,20 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  maxAge: 600 // 10 minutes
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
+// Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Security middleware (after CORS)
+app.use(securityHeaders);
+app.use(sanitize);
 
 // Rate limiting
 app.use('/api/', apiLimiter);
