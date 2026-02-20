@@ -20,11 +20,14 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    // Convert role to uppercase for consistency
+    const userRole = role ? role.toUpperCase() : 'USER';
+
     const user = await User.create({ 
       name, 
       email, 
       password, 
-      role: role || 'user' 
+      role: userRole
     });
     const token = generateToken(user._id);
 
@@ -36,6 +39,7 @@ router.post('/register', async (req, res) => {
       token,
     });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(400).json({ message: error.message });
   }
 });

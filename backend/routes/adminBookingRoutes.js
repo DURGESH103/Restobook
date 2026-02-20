@@ -14,11 +14,13 @@ router.get('/', protect, authorize('ADMIN'), async (req, res) => {
     
     const bookings = await Booking.find(filter)
       .populate('userId', 'name email')
-      .populate('menuItem', 'name price category')
-      .sort({ createdAt: -1 });
+      .populate({ path: 'menuItem', select: 'name price category', strictPopulate: false })
+      .sort({ createdAt: -1 })
+      .lean();
     
     res.json(bookings);
   } catch (error) {
+    console.error('Admin booking error:', error);
     res.status(500).json({ message: error.message });
   }
 });
