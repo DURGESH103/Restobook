@@ -15,6 +15,11 @@ router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    // Validate input
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Please provide name, email and password' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -39,8 +44,8 @@ router.post('/register', async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(400).json({ message: error.message });
+    console.error('Registration error:', error.message);
+    res.status(500).json({ message: 'Server error during registration' });
   }
 });
 
@@ -48,6 +53,11 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Please provide email and password' });
+    }
 
     const user = await User.findOne({ email });
     if (user && (await user.comparePassword(password))) {
@@ -64,7 +74,8 @@ router.post('/login', async (req, res) => {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Login error:', error.message);
+    res.status(500).json({ message: 'Server error during login' });
   }
 });
 
