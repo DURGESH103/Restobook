@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiFilter, FiStar, FiLeaf } from 'react-icons/fi';
+import { FiSearch, FiFilter } from 'react-icons/fi';
 import { menuAPI } from '../utils/api';
 import MenuCard from '../components/MenuCard';
-import { toast } from 'react-toastify';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -33,7 +32,7 @@ const Menu = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [menuItems, selectedCategory, searchTerm, filters]);
+  }, [applyFilters]);
 
   const fetchMenuItems = async () => {
     try {
@@ -95,7 +94,7 @@ const Menu = () => {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...menuItems];
 
     // Category filter
@@ -140,7 +139,7 @@ const Menu = () => {
     }
 
     setFilteredItems(filtered);
-  };
+  }, [menuItems, selectedCategory, searchTerm, filters]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));

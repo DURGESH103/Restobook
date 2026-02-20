@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import AOS from 'aos';
 import HeroSection from '../components/HeroSection';
 import { Link } from 'react-router-dom';
-import { FiStar, FiClock, FiUsers, FiAward, FiHeart, FiShield } from 'react-icons/fi';
+import { FiAward, FiHeart, FiShield } from 'react-icons/fi';
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
