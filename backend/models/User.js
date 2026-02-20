@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   role: { 
     type: String, 
     enum: ['USER', 'ADMIN'], 
@@ -22,7 +22,15 @@ userSchema.pre('save', async function(next) {
 });
 
 userSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  try {
+    if (!this.password) {
+      throw new Error('Password not available for comparison');
+    }
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    console.error('[comparePassword] Error:', error.message);
+    throw error;
+  }
 };
 
 module.exports = mongoose.model('User', userSchema);
