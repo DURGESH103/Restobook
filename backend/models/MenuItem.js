@@ -15,9 +15,13 @@ const menuItemSchema = new mongoose.Schema({
   isAvailable: { type: Boolean, default: true },
   orderCount: { type: Number, default: 0 },
   ingredients: [String],
-  spiceLevel: { type: String, enum: ['Mild', 'Medium', 'Hot'], default: 'Mild' }
+  spiceLevel: { type: String, enum: ['Mild', 'Medium', 'Hot'], default: 'Mild' },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 }, {
   timestamps: true
 });
+
+menuItemSchema.index({ owner: 1 });
+menuItemSchema.index({ category: 1, isAvailable: 1 });
 
 module.exports = mongoose.model('MenuItem', menuItemSchema);

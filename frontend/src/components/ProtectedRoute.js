@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     if (!loading && !isAuthenticated) {
       toast.error('Please login to access this page');
     }
-    if (!loading && isAuthenticated && adminOnly && user?.role !== 'admin') {
+    if (!loading && isAuthenticated && adminOnly && user?.role !== 'ADMIN' && user?.role !== 'admin') {
       toast.error('Admin access required');
     }
   }, [loading, isAuthenticated, adminOnly, user?.role]);
@@ -27,7 +27,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (adminOnly && user?.role !== 'admin') {
+  if (adminOnly && user?.role !== 'ADMIN' && user?.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 

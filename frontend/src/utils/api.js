@@ -12,19 +12,34 @@ const api = axios.create({
 // Menu API
 export const menuAPI = {
   getAll: (category = '') => api.get(`/menu${category ? `?category=${category}` : ''}`),
+  getAdminMenu: () => api.get('/menu/admin/my-menu'),
   getById: (id) => api.get(`/menu/${id}`),
   create: (data) => api.post('/menu', data),
   update: (id, data) => api.put(`/menu/${id}`, data),
   delete: (id) => api.delete(`/menu/${id}`),
 };
 
-// Booking API
+// User Booking API
+export const userBookingAPI = {
+  create: (data) => api.post('/user/bookings', data),
+  getMyBookings: () => api.get('/user/bookings/my-bookings'),
+  cancel: (id) => api.delete(`/user/bookings/${id}`),
+};
+
+// Admin Booking API
+export const adminBookingAPI = {
+  getAll: (status = '') => api.get(`/admin/bookings${status ? `?status=${status}` : ''}`),
+  getStats: () => api.get('/admin/bookings/stats'),
+  updateStatus: (id, status) => api.put(`/admin/bookings/${id}/status`, { status }),
+  delete: (id) => api.delete(`/admin/bookings/${id}`),
+};
+
+// Legacy Booking API (for backward compatibility)
 export const bookingAPI = {
-  getAll: () => api.get('/bookings'),
-  create: (data) => api.post('/bookings', data),
-  getById: (id) => api.get(`/bookings/${id}`),
-  update: (id, data) => api.put(`/bookings/${id}`, data),
-  delete: (id) => api.delete(`/bookings/${id}`),
+  getAll: () => adminBookingAPI.getAll(),
+  create: (data) => userBookingAPI.create(data),
+  update: (id, data) => adminBookingAPI.updateStatus(id, data.status),
+  delete: (id) => adminBookingAPI.delete(id),
 };
 
 // Testimonial API

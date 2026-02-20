@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
@@ -11,11 +12,15 @@ const bookingSchema = new mongoose.Schema({
   specialRequests: { type: String },
   status: { 
     type: String, 
-    enum: ['pending', 'confirmed', 'cancelled'], 
-    default: 'pending' 
+    enum: ['PENDING', 'CONFIRMED', 'REJECTED'], 
+    default: 'PENDING' 
   }
 }, {
   timestamps: true
 });
+
+bookingSchema.index({ userId: 1, createdAt: -1 });
+bookingSchema.index({ owner: 1, status: 1 });
+bookingSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

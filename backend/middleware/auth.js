@@ -26,12 +26,28 @@ const protect = async (req, res, next) => {
   }
 };
 
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    // Support both uppercase and lowercase roles for backward compatibility
+    const userRole = req.user.role.toUpperCase();
+    const allowedRoles = roles.map(role => role.toUpperCase());
+    
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({ 
+        message: `Role ${req.user.role} is not authorized to access this route` 
+      });
+    }
+    next();
+  };
+};
+
+// Legacy support
 const admin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+  if (req.user && (req.user.role === 'ADMIN' || req.user.role === 'admin')) {
     next();
   } else {
     res.status(403).json({ message: 'Not authorized as admin' });
   }
 };
 
-module.exports = { protect, admin };
+module.exports = { protect, authorize, admin };

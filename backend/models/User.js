@@ -5,7 +5,11 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  role: { 
+    type: String, 
+    enum: ['USER', 'ADMIN'], 
+    default: 'USER' 
+  },
   isActive: { type: Boolean, default: true }
 }, {
   timestamps: true

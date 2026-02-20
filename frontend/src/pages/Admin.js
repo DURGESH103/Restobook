@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiEdit, FiTrash2, FiCheck, FiX, FiCalendar, FiClock, FiUsers, FiMail, FiPhone, FiFilter, FiDownload } from 'react-icons/fi';
-import { menuAPI, bookingAPI, testimonialAPI } from '../utils/api';
+import { menuAPI, adminBookingAPI, testimonialAPI } from '../utils/api';
 import { toast } from 'react-toastify';
 
 const Admin = () => {
@@ -33,10 +33,10 @@ const Admin = () => {
   const fetchData = async () => {
     try {
       if (activeTab === 'menu') {
-        const response = await menuAPI.getAll();
+        const response = await menuAPI.getAdminMenu();
         setMenuItems(response.data);
       } else if (activeTab === 'bookings') {
-        const response = await bookingAPI.getAll();
+        const response = await adminBookingAPI.getAll();
         setBookings(response.data);
       } else if (activeTab === 'testimonials') {
         const response = await testimonialAPI.getAll();
@@ -96,7 +96,7 @@ const Admin = () => {
       if (type === 'menu') {
         await menuAPI.delete(id);
       } else if (type === 'booking') {
-        await bookingAPI.delete(id);
+        await adminBookingAPI.delete(id);
       } else if (type === 'testimonial') {
         await testimonialAPI.delete(id);
       }
@@ -135,8 +135,8 @@ const Admin = () => {
 
   const updateBookingStatus = async (id, status) => {
     try {
-      await bookingAPI.update(id, { status });
-      toast.success(`Booking ${status}`);
+      await adminBookingAPI.updateStatus(id, status);
+      toast.success(`Booking ${status.toLowerCase()}`);
       fetchData();
     } catch (error) {
       toast.error('Failed to update booking status');
@@ -144,7 +144,7 @@ const Admin = () => {
   };
 
   const filteredBookings = bookings.filter(booking => {
-    if (bookingFilter !== 'all' && booking.status !== bookingFilter) return false;
+    if (bookingFilter !== 'all' && booking.status !== bookingFilter.toUpperCase()) return false;
     if (dateFilter && !booking.date.includes(dateFilter)) return false;
     return true;
   });
@@ -152,13 +152,17 @@ const Admin = () => {
   const getBookingStats = () => {
     const today = new Date().toISOString().split('T')[0];
     const todayBookings = bookings.filter(b => b.date.includes(today));
-    const confirmedBookings = bookings.filter(b => b.status === 'confirmed');
+    const pending = bookings.filter(b => b.status === 'PENDING');
+    const confirmed = bookings.filter(b => b.status === 'CONFIRMED');
+    const rejected = bookings.filter(b => b.status === 'REJECTED');
     const totalGuests = bookings.reduce((sum, b) => sum + (b.guests || 0), 0);
     
     return {
       total: bookings.length,
       today: todayBookings.length,
-      confirmed: confirmedBookings.length,
+      pending: pending.length,
+      confirmed: confirmed.length,
+      rejected: rejected.length,
       totalGuests
     };
   };
@@ -200,18 +204,22 @@ const Admin = () => {
         {activeTab === 'bookings' && (
           <div>
             {/* Booking Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
               <div className="luxury-stat-card">
                 <div className="text-3xl font-bold text-gold">{stats.total}</div>
-                <div className="text-gray-400">Total Bookings</div>
+                <div className="text-gray-400">Total</div>
+              </div>
+              <div className="luxury-stat-card">
+                <div className="text-3xl font-bold text-yellow-400">{stats.pending}</div>
+                <div className="text-gray-400">Pending</div>
               </div>
               <div className="luxury-stat-card">
                 <div className="text-3xl font-bold text-green-400">{stats.confirmed}</div>
                 <div className="text-gray-400">Confirmed</div>
               </div>
               <div className="luxury-stat-card">
-                <div className="text-3xl font-bold text-blue-400">{stats.today}</div>
-                <div className="text-gray-400">Today</div>
+                <div className="text-3xl font-bold text-red-400">{stats.rejected}</div>
+                <div className="text-gray-400">Rejected</div>
               </div>
               <div className="luxury-stat-card">
                 <div className="text-3xl font-bold text-purple-400">{stats.totalGuests}</div>
@@ -228,9 +236,9 @@ const Admin = () => {
                   className="luxury-filter-select"
                 >
                   <option value="all">All Status</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="pending">Pending</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="CONFIRMED">Confirmed</option>
+                  <option value="REJECTED">Rejected</option>
                 </select>
                 
                 <input
@@ -304,25 +312,28 @@ const Admin = () => {
 
                       {/* Actions */}
                       <div className="flex gap-2">
-                        {booking.status === 'pending' && (
-                          <button
-                            onClick={() => updateBookingStatus(booking._id, 'confirmed')}
-                            className="luxury-action-btn confirm"
-                          >
-                            <FiCheck className="w-4 h-4" />
-                          </button>
-                        )}
-                        {booking.status !== 'cancelled' && (
-                          <button
-                            onClick={() => updateBookingStatus(booking._id, 'cancelled')}
-                            className="luxury-action-btn cancel"
-                          >
-                            <FiX className="w-4 h-4" />
-                          </button>
+                        {booking.status === 'PENDING' && (
+                          <>
+                            <button
+                              onClick={() => updateBookingStatus(booking._id, 'CONFIRMED')}
+                              className="luxury-action-btn confirm"
+                              title="Approve"
+                            >
+                              <FiCheck className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => updateBookingStatus(booking._id, 'REJECTED')}
+                              className="luxury-action-btn cancel"
+                              title="Reject"
+                            >
+                              <FiX className="w-4 h-4" />
+                            </button>
+                          </>
                         )}
                         <button
                           onClick={() => handleDelete(booking._id, 'booking')}
                           className="luxury-action-btn delete"
+                          title="Delete"
                         >
                           <FiTrash2 className="w-4 h-4" />
                         </button>

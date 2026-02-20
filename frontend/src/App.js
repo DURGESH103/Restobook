@@ -14,6 +14,7 @@ import GalleryPage from './pages/GalleryPage';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Admin from './pages/Admin';
+import UserDashboard from './pages/UserDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -31,6 +32,11 @@ function App() {
               <Route path="/booking" element={
                 <ProtectedRoute>
                   <Booking />
+                </ProtectedRoute>
+              } />
+              <Route path="/my-bookings" element={
+                <ProtectedRoute>
+                  <UserDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/testimonials" element={<Testimonials />} />

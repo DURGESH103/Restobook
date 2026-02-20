@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { bookingAPI } from '../utils/api';
+import { userBookingAPI } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { FiCalendar, FiClock, FiUsers, FiUser, FiMail, FiPhone, FiCheck, FiX } from 'react-icons/fi';
@@ -47,10 +47,10 @@ const Booking = () => {
     setLoading(true);
 
     try {
-      const response = await bookingAPI.create(formData);
+      const response = await userBookingAPI.create(formData);
       setBookingDetails({ ...formData, ...response.data.booking });
       setShowSuccessModal(true);
-      toast.success('Booking confirmed! Check your email for details.');
+      toast.success('Booking request submitted! You will receive a confirmation email once approved.');
       
       // Reset form
       setFormData({
@@ -333,10 +333,10 @@ const Booking = () => {
                   <FiCheck className="w-10 h-10 text-white" />
                 </div>
                 <h2 className="text-3xl font-playfair font-bold text-white mb-4">
-                  Reservation Confirmed!
+                  Booking Request Submitted!
                 </h2>
                 <p className="text-gray-300 text-lg">
-                  Your table has been successfully booked. Check your email for confirmation details.
+                  Your booking request has been received and is pending approval. You'll receive a confirmation email once approved.
                 </p>
               </div>
 
@@ -362,7 +362,7 @@ const Booking = () => {
                     </div>
                     <div>
                       <span className="text-gray-400">Status:</span>
-                      <p className="text-green-400 font-medium">Confirmed</p>
+                      <p className="text-yellow-400 font-medium">⏳ Pending Approval</p>
                     </div>
                   </div>
                 </div>

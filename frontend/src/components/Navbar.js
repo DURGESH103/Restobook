@@ -119,7 +119,14 @@ const Navbar = () => {
                       <p className="text-sm font-medium">{user?.name}</p>
                       <p className="text-xs text-gray-500">{user?.email}</p>
                     </div>
-                    {user?.role === 'admin' && (
+                    <Link
+                      to="/my-bookings"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      My Bookings
+                    </Link>
+                    {(user?.role === 'ADMIN' || user?.role === 'admin') && (
                       <Link
                         to="/admin"
                         className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -193,7 +200,14 @@ const Navbar = () => {
                   <p className="text-sm font-medium">{user?.name}</p>
                   <p className="text-xs text-gray-500">{user?.email}</p>
                 </div>
-                {user?.role === 'admin' && (
+                <Link
+                  to="/my-bookings"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:text-gold hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  My Bookings
+                </Link>
+                {(user?.role === 'ADMIN' || user?.role === 'admin') && (
                   <Link
                     to="/admin"
                     onClick={() => setIsOpen(false)}

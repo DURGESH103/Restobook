@@ -6,6 +6,8 @@ const connectDB = require('./config/db');
 // Import routes
 const menuRoutes = require('./routes/menuRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
+const userBookingRoutes = require('./routes/userBookingRoutes');
+const adminBookingRoutes = require('./routes/adminBookingRoutes');
 const testimonialRoutes = require('./routes/testimonialRoutes');
 const authRoutes = require('./routes/authRoutes');
 
@@ -25,7 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
-app.use('/api/bookings', bookingRoutes);
+app.use('/api/bookings', bookingRoutes); // Deprecated
+app.use('/api/user/bookings', userBookingRoutes);
+app.use('/api/admin/bookings', adminBookingRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 
 // Contact form route
