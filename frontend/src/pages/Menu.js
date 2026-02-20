@@ -26,14 +26,6 @@ const Menu = () => {
     { value: 'popularity', label: 'Most Popular' }
   ];
 
-  useEffect(() => {
-    fetchMenuItems();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [applyFilters]);
-
   const fetchMenuItems = async () => {
     try {
       setLoading(true);
@@ -140,6 +132,14 @@ const Menu = () => {
 
     setFilteredItems(filtered);
   }, [menuItems, selectedCategory, searchTerm, filters]);
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
