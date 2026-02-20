@@ -59,8 +59,7 @@ const Cart = () => {
   };
 
   const getRecommendedItems = () => {
-    // Mock recommended items based on cart categories
-    const categories = [...new Set(cartItems.map(item => item.category))];
+    // Mock recommended items
     return [
       {
         _id: 'rec1',

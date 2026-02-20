@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
 import { authAPI } from '../utils/api';
 
 const AuthContext = createContext();
@@ -49,15 +49,7 @@ export const AuthProvider = ({ children }) => {
     error: null,
   });
 
-  useEffect(() => {
-    if (state.token) {
-      loadUser();
-    } else {
-      dispatch({ type: 'SET_LOADING', payload: false });
-    }
-  }, []);
-
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     try {
       const response = await authAPI.getProfile();
       dispatch({
@@ -68,7 +60,15 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'AUTH_ERROR', payload: error.response?.data?.message });
       localStorage.removeItem('token');
     }
-  };
+  }, [state.token]);
+
+  useEffect(() => {
+    if (state.token) {
+      loadUser();
+    } else {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }, [state.token, loadUser]);
 
   const login = async (email, password) => {
     try {

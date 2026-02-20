@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiEdit, FiTrash2, FiCheck, FiX, FiCalendar, FiClock, FiUsers, FiMail, FiPhone, FiFilter, FiDownload } from 'react-icons/fi';
+import { FiPlus, FiEdit, FiTrash2, FiCheck, FiX, FiCalendar, FiClock, FiUsers, FiMail, FiPhone, FiDownload } from 'react-icons/fi';
 import { menuAPI, adminBookingAPI, testimonialAPI } from '../utils/api';
 import { toast } from 'react-toastify';
 
@@ -26,11 +26,7 @@ const Admin = () => {
     isAvailable: true
   });
 
-  useEffect(() => {
-    fetchData();
-  }, [activeTab]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       if (activeTab === 'menu') {
         const response = await menuAPI.getAdminMenu();
@@ -46,7 +42,11 @@ const Admin = () => {
       console.error('Error fetching data:', error);
       toast.error('Failed to fetch data');
     }
-  };
+  }, [activeTab]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleMenuSubmit = async (e) => {
     e.preventDefault();
